@@ -29,6 +29,7 @@
 / {
     behaviors {
         // Home row mods, timings from urob's timeless setup.
+        // require-prior-idle 175 covers about 60 WPM (10500/60).
         // Left: A Super, S Alt, D Right Shift, F Ctrl.
         // Right: J Ctrl, K Right Shift, L Alt, ; Super.
         hml: home_row_mod_left {
@@ -37,7 +38,7 @@
             flavor = "balanced";
             tapping-term-ms = <280>;
             quick-tap-ms = <175>;
-            require-prior-idle-ms = <150>;
+            require-prior-idle-ms = <175>;
             bindings = <&kp>, <&kp>;
             hold-trigger-key-positions = <KEYS_R THUMBS>;
             hold-trigger-on-release;
@@ -49,7 +50,7 @@
             flavor = "balanced";
             tapping-term-ms = <280>;
             quick-tap-ms = <175>;
-            require-prior-idle-ms = <150>;
+            require-prior-idle-ms = <175>;
             bindings = <&kp>, <&kp>;
             hold-trigger-key-positions = <KEYS_L THUMBS>;
             hold-trigger-on-release;
@@ -62,7 +63,7 @@
         combo_bspc {
             timeout-ms = <18>;
             key-positions = <19 20>;
-            require-prior-idle-ms = <150>;
+            require-prior-idle-ms = <175>;
             layers = <0>;
             bindings = <&kp BSPC>;
         };
@@ -71,7 +72,7 @@
         combo_esc {
             timeout-ms = <18>;
             key-positions = <13 14>;
-            require-prior-idle-ms = <150>;
+            require-prior-idle-ms = <175>;
             layers = <0>;
             bindings = <&kp ESC>;
         };
