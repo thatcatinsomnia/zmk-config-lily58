@@ -14,8 +14,7 @@
 #define SYM_L    1
 #define SYM_R    2
 #define NAV      3
-#define SYM_BOTH 4
-#define ADJUST   5
+#define ADJUST   4
 
 / {
     combos {
@@ -41,11 +40,6 @@
 
     conditional_layers {
         compatible = "zmk,conditional-layers";
-        // Both Sym thumbs held: the left home row turns back into symbols.
-        sym_both {
-            if-layers = <SYM_L SYM_R>;
-            then-layer = <SYM_BOTH>;
-        };
         adjust {
             if-layers = <NAV SYM_R>;
             then-layer = <ADJUST>;
@@ -78,16 +72,16 @@
 // Left Sym thumb changes the left half only. The right half stays on the base layer,
 // so the left home row modifiers reach every right-hand key.
 // |  F1   |  F2 |  F3 |  F4  |  F5  |  F6  |                   |      |       |       |      |       |       |
-// |       |  ~  |  (  |  )   |  ;   |  |   |                   |      |       |       |      |       |       |
-// |       | Sup | Alt | Ctrl | RSft |  &   |                   |      |       |       |      |       |       |
-// |       |  \  |  _  |  [   |  ]   |  %   |        |  |       |      |       |       |      |       |       |
+// |       |  ~  |  (  |  )   |  :   |  |   |                   |      |       |       |      |       |       |
+// |       | Ctl | Alt | Sup | RSft |  &   |                   |      |       |       |      |       |       |
+// |       |  !  |  _  |  [   |  ]   |  %   |        |  |       |      |       |       |      |       |       |
 //                     |      |      |      |        |  |       |      |       |       |
             display-name = "SymL";
             bindings = <
 &kp F1 &kp F2    &kp F3    &kp F4    &kp F5    &kp F6                     &trans    &trans     &trans     &trans    &trans     &trans
-&trans &kp TILDE &kp LPAR  &kp RPAR  &kp SEMI  &kp PIPE                   &trans    &trans     &trans     &trans    &trans     &trans
-&trans &kp LGUI  &kp LALT  &kp LCTRL &kp RSHFT &kp AMPS                   &trans    &trans     &trans     &trans    &trans     &trans
-&trans &kp BSLH  &kp UNDER &kp LBKT  &kp RBKT  &kp PRCNT &trans  &trans   &trans    &trans     &trans     &trans    &trans     &trans
+&trans &kp TILDE &kp LPAR  &kp RPAR  &kp COLON &kp PIPE                   &trans    &trans     &trans     &trans    &trans     &trans
+&trans &kp LCTRL &kp LALT  &kp LGUI  &kp RSHFT &kp AMPS                   &trans    &trans     &trans     &trans    &trans     &trans
+&trans &kp EXCL  &kp UNDER &kp LBKT  &kp RBKT  &kp PRCNT &trans  &trans   &trans    &trans     &trans     &trans    &trans     &trans
                            &trans    &trans    &trans    &trans     &trans   &trans    &trans     &trans
             >;
 
@@ -99,18 +93,18 @@
 // Right Sym thumb changes the right half only. The left half stays on the base layer,
 // so the right home row modifiers reach every left-hand key.
 // Outer top stays ` and outer bottom stays Del. The quote key is ? while this layer is held.
-// : is the period key on this layer.
+// * is the period key on this layer. : is SymL R.
 // |       |     |     |      |      |      |                   |  F7  |  F8   |  F9   |  F10 |  F11  |  F12  |
-// |       |     |     |      |      |      |                   |  ^   |  <    |  >    |  -   |   $   |       |
-// |       |     |     |      |      |      |                   |  #   | RSft  | Ctrl  | Alt  | Super |   ?   |
-// |       |     |     |      |      |      |        |  |       |  @   |  {    |  }    |  :   |   /   |       |
+// |       |     |     |      |      |      |                   |  ^   |  =    |  +    |  -   |   $   |       |
+// |       |     |     |      |      |      |                   |  #   | RSft  | Sup  | Alt  | Ctrl  |   ?   |
+// |       |     |     |      |      |      |        |  |       |  @   |  {    |  }    |  *   |   \   |       |
 //                     |      |      |      |        |  |       |      |       |       |
             display-name = "SymR";
             bindings = <
 &trans &trans    &trans    &trans    &trans    &trans                     &kp F7    &kp F8     &kp F9     &kp F10   &kp F11    &kp F12
-&trans &trans    &trans    &trans    &trans    &trans                     &kp CARET &kp LT     &kp GT     &kp MINUS &kp DOLLAR &trans
-&trans &trans    &trans    &trans    &trans    &trans                     &kp HASH  &kp RSHFT  &kp RCTRL  &kp LALT  &kp RGUI   &kp QMARK
-&trans &trans    &trans    &trans    &trans    &trans    &trans  &trans   &kp AT    &kp LBRC   &kp RBRC   &kp COLON &kp FSLH   &trans
+&trans &trans    &trans    &trans    &trans    &trans                     &kp CARET &kp EQUAL  &kp PLUS   &kp MINUS &kp DOLLAR &trans
+&trans &trans    &trans    &trans    &trans    &trans                     &kp HASH  &kp RSHFT  &kp RGUI   &kp LALT  &kp RCTRL  &kp QMARK
+&trans &trans    &trans    &trans    &trans    &trans    &trans  &trans   &kp AT    &kp LBRC   &kp RBRC   &kp ASTRK &kp BSLH   &trans
                            &trans    &trans    &trans    &trans     &trans   &trans    &trans     &trans
             >;
 
@@ -121,38 +115,16 @@
 // ------------------------------------------------------------------------------------------------------------
 // |       |     |     |      |      |      |                   | MUTE | VOL-  | VOL+  | BRI- | BRI+  |       |
 // |       |     |     |      |      |      |                   |      |       |       |      |       |       |
-// Left home row is Super, Alt, Ctrl, Right Shift while this layer is held.
-// |       | Sup | Alt | Ctrl | RSft |      |                   |  <-  |   v   |   ^   |  ->  |       |       |
+// Left home row is Ctrl, Alt, Super, Right Shift while this layer is held.
+// |       | Ctl | Alt | Sup | RSft |      |                   |  <-  |   v   |   ^   |  ->  |       |       |
 // |       |     |     |      |      |      |        |  |       |      |       |       |      |       |       |
 //                     |      |      |      |        |  |       |      |       |       |
             bindings = <
 &trans    &trans &trans &trans  &trans  &trans                       &kp C_MUTE  &kp C_VOL_DN &kp C_VOL_UP &kp C_BRI_DN &kp C_BRI_UP &trans
 &trans    &trans &trans &trans  &trans  &trans                       &trans      &trans    &trans    &trans   &trans    &trans
-&trans    &kp LGUI &kp LALT &kp LCTRL &kp RSHFT &trans               &kp LEFT    &kp DOWN  &kp UP    &kp RIGHT &trans   &trans
+&trans    &kp LCTRL &kp LALT &kp LGUI &kp RSHFT &trans               &kp LEFT    &kp DOWN  &kp UP    &kp RIGHT &trans   &trans
 &trans    &trans &trans &trans  &trans  &trans    &trans   &trans    &trans      &trans    &trans    &trans   &trans    &trans
                         &trans  &trans  &trans    &trans   &trans    &trans      &trans    &trans
-            >;
-
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
-        };
-
-        sym_both_layer {
-// ------------------------------------------------------------------------------------------------------------
-// Both Sym thumbs held. Only the left home row is set here; everything else falls through
-// to the two half layers. The right home row is not decided yet, so it stays transparent
-// and keeps showing the right-hand modifiers.
-// |       |     |     |      |      |      |                   |      |       |       |      |       |       |
-// |       |     |     |      |      |      |                   |      |       |       |      |       |       |
-// |       |  !  |  *  |  +   |  =   |  &   |                   |      |       |       |      |       |       |
-// |       |     |     |      |      |      |        |  |       |      |       |       |      |       |       |
-//                     |      |      |      |        |  |       |      |       |       |
-            display-name = "Sym";
-            bindings = <
-&trans &trans    &trans    &trans    &trans    &trans                     &trans    &trans     &trans     &trans    &trans     &trans
-&trans &trans    &trans    &trans    &trans    &trans                     &trans    &trans     &trans     &trans    &trans     &trans
-&trans &kp EXCL  &kp ASTRK &kp PLUS  &kp EQUAL &kp AMPS                   &trans    &trans     &trans     &trans    &trans     &trans
-&trans &trans    &trans    &trans    &trans    &trans    &trans  &trans   &trans    &trans     &trans     &trans    &trans     &trans
-                           &trans    &trans    &trans    &trans     &trans   &trans    &trans     &trans
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
