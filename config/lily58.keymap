@@ -16,7 +16,19 @@
 #define NAV      3
 #define ADJUST   4
 
+// host_clip parameter. The chord depends on the Bluetooth slot selected on Adjust.
+#define HOST_COPY 0
+#define HOST_PASTE 1
+
 / {
+    behaviors {
+        host_clip: host_clip {
+            compatible = "zmk,behavior-host-clip";
+            #binding-cells = <1>;
+            display-name = "Host Clip";
+        };
+    };
+
     combos {
         compatible = "zmk,combos";
         // U + I pressed together = Backspace
@@ -113,16 +125,19 @@
 
         nav_layer {
 // ------------------------------------------------------------------------------------------------------------
+// Left thumb. C and V copy and paste for the Bluetooth slot selected on Adjust.
+// BT3 is Omarchy (Super+C, Super+V). BT5 is Windows (Ctrl+C, Ctrl+V).
+// Any other slot sends Ctrl+Insert and Shift+Insert.
 // |       |     |     |      |      |      |                   | MUTE | VOL-  | VOL+  | BRI- | BRI+  |       |
 // |       |     |     |      |      |      |                   |      |       |       |      |       |       |
 // |       |     |     |      |      |      |                   |  <-  |   v   |   ^   |  ->  |       |       |
-// |       |     |     |      |      |      |        |  |       |      |       |       |      |       |       |
+// |       |     |     | Copy | Paste|      |        |  |       |      |       |       |      |       |       |
 //                     |      |      |      |        |  |       |      |       |       |
             bindings = <
 &trans    &trans &trans &trans  &trans  &trans                       &kp C_MUTE  &kp C_VOL_DN &kp C_VOL_UP &kp C_BRI_DN &kp C_BRI_UP &trans
 &trans    &trans &trans &trans  &trans  &trans                       &trans      &trans    &trans    &trans   &trans    &trans
 &trans    &trans &trans &trans  &trans  &trans                       &kp LEFT    &kp DOWN  &kp UP    &kp RIGHT &trans   &trans
-&trans    &trans &trans &trans  &trans  &trans    &trans   &trans    &trans      &trans    &trans    &trans   &trans    &trans
+&trans    &trans &trans &host_clip HOST_COPY &host_clip HOST_PASTE &trans    &trans   &trans    &trans      &trans    &trans    &trans   &trans    &trans
                         &trans  &trans  &trans    &trans   &trans    &trans      &trans    &trans
             >;
 
@@ -132,6 +147,8 @@
         adjust_layer {
 // ------------------------------------------------------------------------------------------------------------
 // Nav and right Sym held together.
+// BT3 is the Omarchy computer. BT5 is the Windows computer.
+// Nav+C and Nav+V follow whichever of these slots is selected.
 // | BTCLR | BT1  | BT2  | BT3  |  BT4 |  BT5 |                   |      |       |       |      |       |       |
 // |       |EP_ON |EP_OFF|EP_TOG|      |      |                   |      |       |       |      |       |       |
 // |       |      |      |      |      |      |                   |      |       |       |      |       |       |

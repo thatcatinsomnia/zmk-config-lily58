@@ -1,0 +1,19 @@
+# SPDX-License-Identifier: MIT
+
+description: Copy or paste using the shortcut for the active Bluetooth profile
+
+compatible: "zmk,behavior-host-clip"
+
+properties:
+  display-name:
+    type: string
+  label:
+    type: string
+    required: false
+  "#binding-cells":
+    type: int
+    required: true
+    const: 1
+
+binding-cells:
+  - param1
